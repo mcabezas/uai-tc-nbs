@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Security", "Security\Securi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{072EE494-D013-47D5-A15D-F793B103430A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time", "Time\Time.csproj", "{B541586E-85DF-4BE4-9058-120C2AEF9AAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{072EE494-D013-47D5-A15D-F793B103430A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{072EE494-D013-47D5-A15D-F793B103430A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{072EE494-D013-47D5-A15D-F793B103430A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B541586E-85DF-4BE4-9058-120C2AEF9AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B541586E-85DF-4BE4-9058-120C2AEF9AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B541586E-85DF-4BE4-9058-120C2AEF9AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B541586E-85DF-4BE4-9058-120C2AEF9AAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

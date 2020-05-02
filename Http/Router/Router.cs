@@ -1,15 +1,14 @@
 using System.Linq;
 using System.Net;
-using Common.Http;
 
 namespace Http.Router
 {
-    public class Router : IRouter
+    internal class Router : IRouter
     {
         private readonly INode _root;
         private const string PathSeparator = "/";
 
-        public Router()
+        internal Router()
         {
             _root = new Node();
         }

@@ -4,6 +4,7 @@ namespace Security.BE
 {
     internal class Permission
     {
-        public string Action { get; set; }
+        public long Id { get; set; }
+        public string Description { get; set; }
     }
 }

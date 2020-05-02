@@ -2,8 +2,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using Common;
 
-namespace Common.Http
+namespace Http.Router
 {
     public static class RequestReader
     {

@@ -6,6 +6,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common\Common.csproj" />
+      <ProjectReference Include="..\Http\Http.csproj" />
+      <ProjectReference Include="..\Time\Time.csproj" />
     </ItemGroup>
 
 </Project>

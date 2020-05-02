@@ -34,5 +34,17 @@ namespace Security.BLL
 
             return lowerCase ? builder.ToString().ToLower() : builder.ToString();
         }
+
+        public MaybeEmpty<BE.SessionToken> Get()
+        {
+            var sessionToken = new BE.SessionToken
+            {
+                User = null,
+                Token = "",
+                ExpireAt = DateTime.Now,
+            };
+            
+            return MaybeEmpty<BE.SessionToken>.Of(sessionToken);
+        }
     }
 }

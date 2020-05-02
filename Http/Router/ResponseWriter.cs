@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Common.Http
+namespace Http.Router
 {
     public static class ResponseWriter
     {

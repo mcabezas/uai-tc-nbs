@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text.Json;
-using Common.Http;
+using Http.Router;
 using Security.BLL;
 using SessionToken = Security.BE.SessionToken;
 
@@ -18,34 +18,34 @@ namespace Security.Gateway
 
         public void Handle(HttpListenerRequest req, HttpListenerResponse res)
         {
-            var credentialsFound = RequestReader.ReadBody<AuthenticateUserCommand>(req);
-            if (!credentialsFound.IsPresent)
+            var credentialsIntent = RequestReader.ReadBody<AuthenticateUserCommand>(req);
+            if (!credentialsIntent.Found)
             {
                 ResponseWriter.Write(res, HttpStatusCode.Unauthorized, "");
                 return;
             }
 
-            var credentials = credentialsFound.Get();
-            if (credentials.IsValid())
-            {
-                ResponseWriter.Write(res, HttpStatusCode.Unauthorized, "");
-            }
-
-            var found = _bll.Authenticate(credentials);
-
-            if (!found.IsPresent)
+            if (!credentialsIntent.Found)
             {
                 ResponseWriter.Write(res, HttpStatusCode.Unauthorized, "");
                 return;
             }
 
-            var response = new AuthenticateUserResponse(found.Get());
+            var credentials = credentialsIntent.Get();
+            var sessionTokenIntent = _bll.Authenticate(credentials);
+            if (!sessionTokenIntent.Found)
+            {
+                ResponseWriter.Write(res, HttpStatusCode.Unauthorized, "");
+                return;
+            }
+
+            var response = new AuthenticateUserResponse(sessionTokenIntent.Get());
             var body = JsonSerializer.Serialize(response);
             ResponseWriter.Write(res, body);
         }
     }
 
-    internal class AuthenticateUserCommand
+    internal class AuthenticateUserCommand : ICommand
     {
         public string Email { get; set; }
         public string Password { get; set; }

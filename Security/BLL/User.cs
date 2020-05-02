@@ -1,5 +1,6 @@
 using Common;
 using Security.Gateway;
+using Time;
 
 namespace Security.BLL
 {
@@ -7,22 +8,24 @@ namespace Security.BLL
     {
         private readonly DAL.User _storage;
         private readonly SessionToken _sessionToken;
+        private readonly ITime _time;
 
-        internal User(SessionToken sessionToken)
+        internal User(SessionToken sessionToken, ITime time)
         {
             _storage = new DAL.User();
             _sessionToken = sessionToken;
+            _time = time;
         }
 
         internal MaybeEmpty<BE.SessionToken> Authenticate(AuthenticateUserCommand credentials)
         {
-            var found = _storage.Get(credentials.Email);
-            if (!found.IsPresent)
+            var lookUp = _storage.Get(credentials.Email);
+            if (!lookUp.Found)
             {
                 return MaybeEmpty<BE.SessionToken>.Empty();
             }
 
-            var user = found.Get();
+            var user = lookUp.Get();
             if (Encrypt(credentials.Password) != user.Password)
             {
                 return MaybeEmpty<BE.SessionToken>.Empty();
@@ -40,11 +43,18 @@ namespace Security.BLL
 
         #endregion
 
-        internal bool Authorize(string token, string action)
+        internal bool Authorize(AuthorizeUserCommand command)
         {
-            return true;
-        }
+            var lookUp = _sessionToken.Get();
+            if (!lookUp.Found)
+            {
+                return false;
+            }
 
+            var sessionToken = lookUp.Get();
+            return sessionToken.ExpireAt.CompareTo(_time.Now()) < 1;
+        }
+        
         internal long Save(BE.User user)
         {
             return 0;

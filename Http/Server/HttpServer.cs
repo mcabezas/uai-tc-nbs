@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using Common.Http;
+using Http.Router;
 
 namespace Http.Server
 {
@@ -24,7 +24,7 @@ namespace Http.Server
                 var request = context.Request;
                 var response = context.Response;
 
-                Console.WriteLine($"Received {request.HttpMethod} request for {request.Url}");
+                Console.WriteLine($"requestId {request.RequestTraceIdentifier} Method {request.HttpMethod} resource {request.Url} ");
                 if (response.StatusCode != (int)HttpStatusCode.LengthRequired)
                 {
                     router.HandleRequest(request, response);

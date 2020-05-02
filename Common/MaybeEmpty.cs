@@ -3,7 +3,7 @@
     public class MaybeEmpty<T>
     {
         private T _value;
-        public bool IsPresent { get; private set; } = false;
+        public bool Found { get; private set; } = false;
 
         private MaybeEmpty()
         {
@@ -24,7 +24,7 @@
         public void Set(T value)
         {
             _value = value;
-            IsPresent = true;
+            Found = true;
         }
 
         public T Get()

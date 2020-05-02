@@ -1,5 +1,4 @@
-﻿using Common.Http;
-using Http.Router;
+﻿using Http.Router;
 
 namespace CMD
 {
@@ -7,10 +6,12 @@ namespace CMD
     {
         static void Main(string[] args)
         {
-            var securityGateway = new Security.Gateway.Gateway();
-            IRouter router = new Router();
-            router = securityGateway.RoutesUp(router);
+            var time = new Time.Time();
 
+            var securityGateway = new Security.Gateway.Gateway(time);
+
+            var router = Factory.CreateRouter();
+            router = securityGateway.RoutesUp(router);
             Http.Server.HttpServer.Start("http://*:8888/", router);
         }
     }
