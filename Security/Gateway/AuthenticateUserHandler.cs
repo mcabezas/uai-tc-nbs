@@ -45,7 +45,7 @@ namespace Security.Gateway
         }
     }
 
-    internal class AuthenticateUserCommand : ICommand
+    class AuthenticateUserCommand : ICommand
     {
         public string Email { get; set; }
         public string Password { get; set; }
@@ -56,7 +56,7 @@ namespace Security.Gateway
         }
     }
 
-    internal class AuthenticateUserResponse
+    class AuthenticateUserResponse
     {
         public string Token { get; }
 

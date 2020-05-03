@@ -44,7 +44,7 @@ namespace Security.Gateway
         }
     }
 
-    internal class AuthorizeUserCommand : ICommand
+    class AuthorizeUserCommand : ICommand
     {
         public string Token { get; set; }
         public string Action { get; set; }
@@ -55,7 +55,7 @@ namespace Security.Gateway
         }
     }
 
-    internal class AuthorizeUserResponse
+    class AuthorizeUserResponse
     {
         public bool Authorized { get; }
 

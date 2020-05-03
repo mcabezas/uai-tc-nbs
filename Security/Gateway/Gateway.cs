@@ -1,3 +1,4 @@
+using Common;
 using Http.Router;
 using Security.BLL;
 using Time;
@@ -8,10 +9,10 @@ namespace Security.Gateway
     {
         private readonly BLL.User _user;
 
-        public Gateway(ITime time)
+        public Gateway(ITime time, IDatabase database)
         {
-            var sessionToken = new SessionToken();
-            _user = new User(sessionToken, time);
+            var sessionToken = new SessionToken(database);
+            _user = new User(sessionToken, time, database);
         }
 
         public IRouter RoutesUp(IRouter router)

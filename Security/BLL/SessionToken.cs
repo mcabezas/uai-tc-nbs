@@ -9,9 +9,9 @@ namespace Security.BLL
         private readonly DAL.SessionToken _storage;
         private const int TokenSize = 64;
 
-        internal SessionToken()
+        internal SessionToken(IDatabase database)
         {
-            _storage = new DAL.SessionToken();
+            _storage = new DAL.SessionToken(database);
         }
 
         public MaybeEmpty<BE.SessionToken> GenerateToken(BE.User user)

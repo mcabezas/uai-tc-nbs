@@ -10,9 +10,9 @@ namespace Security.BLL
         private readonly SessionToken _sessionToken;
         private readonly ITime _time;
 
-        internal User(SessionToken sessionToken, ITime time)
+        internal User(SessionToken sessionToken, ITime time, IDatabase database)
         {
-            _storage = new DAL.User();
+            _storage = new DAL.User(database);
             _sessionToken = sessionToken;
             _time = time;
         }
@@ -57,22 +57,22 @@ namespace Security.BLL
         
         internal long Save(BE.User user)
         {
-            return 0;
+            return _storage.Save(user);
         }
 
-        internal long Update(BE.User user)
+        internal void Update(BE.User user)
         {
-            return 0;
+            _storage.Update(user);
         }
 
-        internal long Get(BE.User user)
+        internal MaybeEmpty<BE.User> Get(long userId)
         {
-            return 0;
+            return _storage.Get(userId);
         }
 
-        internal long Delete(BE.User user)
+        internal void Delete(BE.User user)
         {
-            return 0;
+            _storage.Delete(user);
         }
     }
 }

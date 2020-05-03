@@ -7,8 +7,9 @@ namespace CMD
         static void Main(string[] args)
         {
             var time = new Time.Time();
+            var database = new Common.Database();
 
-            var securityGateway = new Security.Gateway.Gateway(time);
+            var securityGateway = new Security.Gateway.Gateway(time, database);
 
             var router = Factory.CreateRouter();
             router = securityGateway.RoutesUp(router);
