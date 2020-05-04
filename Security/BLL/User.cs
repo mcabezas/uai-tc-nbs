@@ -8,13 +8,17 @@ namespace Security.BLL
     {
         private readonly DAL.User _storage;
         private readonly SessionToken _sessionToken;
+        private readonly Permission _permission;
+        private readonly Role _role;
         private readonly ITime _time;
 
-        internal User(SessionToken sessionToken, ITime time, IDatabase database)
+        internal User(SessionToken sessionToken, ITime time, IDatabase database, Permission permission, Role role)
         {
             _storage = new DAL.User(database);
             _sessionToken = sessionToken;
             _time = time;
+            _permission = permission;
+            _role = role;
         }
 
         internal MaybeEmpty<BE.SessionToken> Authenticate(AuthenticateUserCommand credentials)

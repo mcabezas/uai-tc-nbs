@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Common;
 using Http.Router;
 using Security.BLL;
@@ -12,7 +13,9 @@ namespace Security.Gateway
         public Gateway(ITime time, IDatabase database)
         {
             var sessionToken = new SessionToken(database);
-            _user = new User(sessionToken, time, database);
+            var permission = new Permission(database);
+            var role = new Role(database);
+            _user = new User(sessionToken, time, database, permission, role);
         }
 
         public IRouter RoutesUp(IRouter router)
