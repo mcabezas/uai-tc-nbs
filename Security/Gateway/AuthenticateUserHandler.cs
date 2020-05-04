@@ -25,13 +25,13 @@ namespace Security.Gateway
                 return;
             }
 
-            if (!credentialsIntent.Found)
+            var credentials = credentialsIntent.Get();
+            if (!credentials.IsValid())
             {
                 ResponseWriter.Write(res, HttpStatusCode.Unauthorized, "");
                 return;
             }
 
-            var credentials = credentialsIntent.Get();
             var sessionTokenIntent = _bll.Authenticate(credentials);
             if (!sessionTokenIntent.Found)
             {

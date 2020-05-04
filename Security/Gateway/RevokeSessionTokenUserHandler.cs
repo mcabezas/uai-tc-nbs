@@ -6,32 +6,32 @@ using Security.BLL;
 
 namespace Security.Gateway
 {
-    public class AuthorizeUserHandler : IHttpHandler
+    public class LogoutHandler : IHttpHandler
     {
-        private readonly User _bll;
+        private readonly SessionToken _bll;
 
-        internal AuthorizeUserHandler(User bll)
+        internal LogoutHandler(SessionToken bll)
         {
             _bll = bll;
         }
 
         public void Handle(HttpListenerRequest req, HttpListenerResponse res)
         {
-            var authorizeRequestIntent = RequestReader.ReadBody<AuthorizeUserCommand>(req);
-            if (!authorizeRequestIntent.Found)
+            var revokeSessionIntent = RequestReader.ReadBody<RevokeSessionTokenCommand>(req);
+            if (!revokeSessionIntent.Found)
             {
                 ResponseWriter.Write(res, HttpStatusCode.Unauthorized, "");
                 return;
             }
 
-            var authorizeRequest = authorizeRequestIntent.Get();
-            if (!authorizeRequest.IsValid())
+            var revokeSessionRequest = revokeSessionIntent.Get();
+            if (!revokeSessionRequest.IsValid())
             {
                 ResponseWriter.Write(res, HttpStatusCode.Unauthorized, "");
                 return;
             }
 
-            var authorized = _bll.Authorize(authorizeRequest);
+            var authorized = _bll.RevokeToken(revokeSessionRequest);
             if (!authorized)
             {
                 ResponseWriter.Write(res, HttpStatusCode.Unauthorized, "");
@@ -44,24 +44,23 @@ namespace Security.Gateway
         }
     }
 
-    class AuthorizeUserCommand : ICommand
+    class RevokeSessionTokenCommand : ICommand
     {
         public string Token { get; set; }
-        public string Action { get; set; }
 
         public bool IsValid()
         {
-            return Token != "" && Action != "";
+            return Token != "";
         }
     }
 
-    class AuthorizeUserResponse
+    class RevokeSessionTokenResponse
     {
-        public bool Authorized { get; }
+        public bool Revoked { get; }
 
-        public AuthorizeUserResponse(bool authorized)
+        public RevokeSessionTokenResponse(bool revoked)
         {
-            Authorized = authorized;
+            Revoked = revoked;
         }
     }
 }

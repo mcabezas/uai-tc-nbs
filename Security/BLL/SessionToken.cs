@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Common;
+using Security.Gateway;
 
 namespace Security.BLL
 {
@@ -17,11 +18,16 @@ namespace Security.BLL
         public MaybeEmpty<BE.SessionToken> GenerateToken(BE.User user)
         {
             var token = GenerateToken(TokenSize, true);
-            var sessionToken = new BE.SessionToken() {User = user, Token = token};
+            var sessionToken = new BE.SessionToken() {User = user, Token = token, Active = true};
             _storage.Save(sessionToken);
             return MaybeEmpty<BE.SessionToken>.Of(sessionToken);
         }
 
+        public bool RevokeToken(RevokeSessionTokenCommand revokeRequest)
+        {
+            var sessionToken = new BE.SessionToken() {Token = revokeRequest.Token, Active = false};
+            return _storage.UpdateStatus(sessionToken);
+        }
         private string GenerateToken(int size, bool lowerCase)
         {
             var builder = new StringBuilder();

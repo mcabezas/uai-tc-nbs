@@ -19,5 +19,10 @@ namespace Security.DAL
         {
             return MaybeEmpty<BE.SessionToken>.Empty();
         }
+
+        public bool UpdateStatus(BE.SessionToken sessionToken)
+        {
+            return true;
+        }
     }
 }

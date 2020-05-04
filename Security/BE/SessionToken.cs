@@ -1,5 +1,4 @@
 using System;
-using System.Dynamic;
 
 namespace Security.BE
 {
@@ -7,7 +6,9 @@ namespace Security.BE
     {
         public User User { get; set; }
         public string Token { get; set; }
-        
+
+        public bool Active { get; set; }
+
         public DateTime ExpireAt { get; set; }
     }
 }

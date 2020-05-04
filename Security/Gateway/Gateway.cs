@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using Common;
 using Http.Router;
 using Security.BLL;
@@ -8,21 +7,23 @@ namespace Security.Gateway
 {
     public class Gateway
     {
-        private readonly BLL.User _user;
+        private readonly User _user;
+        private readonly SessionToken _sessionToken;
 
         public Gateway(ITime time, IDatabase database)
         {
-            var sessionToken = new SessionToken(database);
+            _sessionToken = new SessionToken(database);
             var permission = new Permission(database);
             var role = new Role(database);
-            _user = new User(sessionToken, time, database, permission, role);
+            _user = new User(_sessionToken, time, database, permission, role);
         }
 
         public IRouter RoutesUp(IRouter router)
         {
             return router
                 .AddRequestHandler("/users/authenticate", "PUT", new AuthenticateUserHandler(_user))
-                .AddRequestHandler("/users/authorize", "PUT", new AuthorizeUserHandler(_user));
+                .AddRequestHandler("/users/authorize", "PUT", new AuthorizeUserHandler(_user))
+                .AddRequestHandler("/users/logout", "PUT", new LogoutHandler(_sessionToken));
         }
     }
 }
